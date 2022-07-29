@@ -7,7 +7,7 @@ const Home = () => {
   const token = loadData("token");
   return (
     <>
-      <h1>{token ? token.token : "Home"}</h1>
+      <h1>{token ? "Token : " + token.token : "Home"}</h1>
     </>
   );
 };

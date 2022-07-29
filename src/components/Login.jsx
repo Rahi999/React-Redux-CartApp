@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import axios from "axios";
 import {
@@ -8,6 +9,7 @@ import {
 } from "../Redux/AuthReducer/actions";
 import { saveData } from "../utils/accessLocalStorage";
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,8 +20,6 @@ const Login = () => {
       isAuthLoading: state.AuthReducer.isAuthLoading
     };
   }, shallowEqual);
-
-  console.log(isAuth, isAuthError, isAuthLoading);
 
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
@@ -33,14 +33,17 @@ const Login = () => {
       axios
         .post("https://reqres.in/api/login", paylaod)
         .then((r) => {
-          console.log(r.data);
           dispatch(loginSuccess(r.data));
           saveData("token", r.data);
+          alert("Login Succeed");
+          navigate("/");
         })
         .catch((e) => {
           dispatch(loginFailure());
           alert("Enter Valid Details");
         });
+    } else {
+      alert("Enter Valid Details");
     }
   };
   return (

@@ -4,9 +4,10 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS
 } from "./actionType";
+import { loadData } from "../../utils/accessLocalStorage";
 
 const initState = {
-  isAuth: false,
+  isAuth: loadData("auth") || false,
   token: "",
   isAuthLoading: false,
   isAuthError: false
@@ -28,11 +29,13 @@ export const reducer = (oldState = initState, { type, payload }) => {
       };
     }
     case USER_LOGIN_SUCCESS: {
+      const Auth = true;
+      saveData("auth", Auth);
       return {
         ...oldState,
         isAuthLoading: false,
         isAuthError: false,
-        isAuth: true,
+        isAuth: Auth,
         token: payload
       };
     }

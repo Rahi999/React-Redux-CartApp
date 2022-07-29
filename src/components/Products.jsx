@@ -22,7 +22,6 @@ const Products = () => {
     };
   });
   const dispatch = useDispatch();
-  console.log(prod);
   const getProducts = () => {
     dispatch(getRequest());
     return axios

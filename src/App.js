@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Link, Route, Router, Routes, Redirect } from "react-router-dom";
 import Cart from "./components/Cart";
 import Home from "./components/Home";
@@ -10,6 +11,14 @@ import { loadData } from "./utils/accessLocalStorage";
 export default function App() {
   const token = loadData("token");
 
+  const auth = loadData("auth");
+
+  const isAuth = useSelector((state) => {
+    return {
+      isAuth: state.AuthReducer.isAuth
+    };
+  });
+
   //http://fakestoreapi.com/products
   // reqres.in ;-- https://reqres.in/api/login
   return (
@@ -19,8 +28,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/products" element={token ? <Products /> : <Login />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/products"
+          element={isAuth.isAuth ? <Products /> : <Login />}
+        />
+        <Route path="/cart" element={isAuth.isAuth ? <Cart /> : <Login />} />
         <Route path={"/products/:id"} element={<Pdetails />} />{" "}
       </Routes>
     </div>
